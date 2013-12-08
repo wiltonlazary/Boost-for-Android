@@ -1,18 +1,7 @@
---- boost_1_53_0-boot/libs/locale/build/Jamfile.v2	2013-11-25 01:16:41.401893635 +0200
-+++ boost_1_53_0/libs/locale/build/Jamfile.v2	2013-11-25 01:16:55.810101872 +0200
-@@ -185,7 +185,7 @@
- obj has_icu_obj     : ../build/has_icu_test.cpp : $(ICU_OPTS)   ;
- obj has_icu64_obj   : ../build/has_icu_test.cpp : $(ICU64_OPTS) ;
- 
--exe has_icu   : has_icu_obj   : $(ICU_OPTS)   ;
-+lib has_icu   : ../build/option.cpp : <link>static ;
- exe has_icu64 : has_icu64_obj : $(ICU64_OPTS) ;
- 
- explicit has_icu has_icu64 ;
-diff -ruN boost_1_53_0-boot/boost/asio/detail/socket_types.hpp boost_1_53_0-patched/boost/asio/detail/socket_types.hpp
---- boost_1_53_0-boot/boost/asio/detail/socket_types.hpp	2012-01-15 14:46:25.000000000 +0100
-+++ boost_1_53_0-patched/boost/asio/detail/socket_types.hpp	2012-06-27 19:19:01.279562338 +0200
-@@ -123,7 +123,12 @@
+diff -ruN boost_orig/boost/asio/detail/socket_types.hpp boost_1_53_0/boost/asio/detail/socket_types.hpp
+--- boost_orig/boost/asio/detail/socket_types.hpp	2012-12-31 00:17:13.000000000 +0100
++++ boost_1_53_0/boost/asio/detail/socket_types.hpp	2013-11-25 14:13:19.364163673 +0100
+@@ -124,7 +124,12 @@
  typedef int socket_type;
  const int invalid_socket = -1;
  const int socket_error_retval = -1;
@@ -25,9 +14,9 @@ diff -ruN boost_1_53_0-boot/boost/asio/detail/socket_types.hpp boost_1_53_0-patc
  #if defined(INET6_ADDRSTRLEN)
  const int max_addr_v6_str_len = INET6_ADDRSTRLEN + 1 + IF_NAMESIZE;
  #else // defined(INET6_ADDRSTRLEN)
-diff -ruN boost_1_53_0-boot/boost/asio/ip/impl/address_v6.ipp boost_1_53_0-patched/boost/asio/ip/impl/address_v6.ipp
---- boost_1_53_0-boot/boost/asio/ip/impl/address_v6.ipp	2012-01-15 14:46:25.000000000 +0100
-+++ boost_1_53_0-patched/boost/asio/ip/impl/address_v6.ipp	2012-06-27 19:19:11.029581297 +0200
+diff -ruN boost_orig/boost/asio/ip/impl/address_v6.ipp boost_1_53_0/boost/asio/ip/impl/address_v6.ipp
+--- boost_orig/boost/asio/ip/impl/address_v6.ipp	2012-01-15 14:46:25.000000000 +0100
++++ boost_1_53_0/boost/asio/ip/impl/address_v6.ipp	2013-11-25 14:13:19.364163673 +0100
 @@ -11,6 +11,23 @@
  #ifndef BOOST_ASIO_IP_IMPL_ADDRESS_V6_IPP
  #define BOOST_ASIO_IP_IMPL_ADDRESS_V6_IPP
@@ -52,9 +41,9 @@ diff -ruN boost_1_53_0-boot/boost/asio/ip/impl/address_v6.ipp boost_1_53_0-patch
  #if defined(_MSC_VER) && (_MSC_VER >= 1200)
  # pragma once
  #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
-diff -ruN boost_1_53_0-boot/boost/config/user.hpp boost_1_53_0-patched/boost/config/user.hpp
---- boost_1_53_0-boot/boost/config/user.hpp	2004-01-10 13:10:00.000000000 +0100
-+++ boost_1_53_0-patched/boost/config/user.hpp	2012-06-27 19:18:46.129532736 +0200
+diff -ruN boost_orig/boost/config/user.hpp boost_1_53_0/boost/config/user.hpp
+--- boost_orig/boost/config/user.hpp	2004-01-10 13:10:00.000000000 +0100
++++ boost_1_53_0/boost/config/user.hpp	2013-11-25 14:13:19.364163673 +0100
 @@ -13,6 +13,15 @@
  //  configuration policy:
  //
@@ -71,9 +60,9 @@ diff -ruN boost_1_53_0-boot/boost/config/user.hpp boost_1_53_0-patched/boost/con
  // define this to locate a compiler config file:
  // #define BOOST_COMPILER_CONFIG <myheader>
  
-diff -ruN boost_1_53_0-boot/boost/detail/endian.hpp boost_1_53_0-patched/boost/detail/endian.hpp
---- boost_1_53_0-boot/boost/detail/endian.hpp	2011-03-29 23:58:48.000000000 +0200
-+++ boost_1_53_0-patched/boost/detail/endian.hpp	2012-06-27 19:18:39.359519453 +0200
+diff -ruN boost_orig/boost/detail/endian.hpp boost_1_53_0/boost/detail/endian.hpp
+--- boost_orig/boost/detail/endian.hpp	2011-03-29 23:58:48.000000000 +0200
++++ boost_1_53_0/boost/detail/endian.hpp	2013-11-25 14:13:19.364163673 +0100
 @@ -31,7 +31,7 @@
  // GNU libc offers the helpful header <endian.h> which defines
  // __BYTE_ORDER
@@ -83,21 +72,21 @@ diff -ruN boost_1_53_0-boot/boost/detail/endian.hpp boost_1_53_0-patched/boost/d
  # include <endian.h>
  # if (__BYTE_ORDER == __LITTLE_ENDIAN)
  #  define BOOST_LITTLE_ENDIAN
-diff -ruN boost_1_53_0-boot/boost/interprocess/detail/workaround.hpp boost_1_53_0-patched/boost/interprocess/detail/workaround.hpp
---- boost_1_53_0-boot/boost/interprocess/detail/workaround.hpp	2011-12-26 18:21:36.000000000 +0100
-+++ boost_1_53_0-patched/boost/interprocess/detail/workaround.hpp	2012-06-27 19:18:52.909546004 +0200
+diff -ruN boost_orig/boost/interprocess/detail/workaround.hpp boost_1_53_0/boost/interprocess/detail/workaround.hpp
+--- boost_orig/boost/interprocess/detail/workaround.hpp	2012-12-02 00:08:28.000000000 +0100
++++ boost_1_53_0/boost/interprocess/detail/workaround.hpp	2013-12-07 19:18:49.840563173 +0100
 @@ -54,7 +54,7 @@
     #endif
  
     //Check for XSI shared memory objects. They are available in nearly all UNIX platforms
 -   #if !defined(__QNXNTO__)
-+   #if !defined(__QNXNTO__) && !defined(ANDROID)
++   #if !defined(__QNXNTO__) /*&& !defined(ANDROID)*/
        #define BOOST_INTERPROCESS_XSI_SHARED_MEMORY_OBJECTS
     #endif
  
-diff -ruN boost_1_53_0-boot/libs/filesystem/src/operations.cpp boost_1_53_0-patched/libs/filesystem/src/operations.cpp
---- boost_1_53_0-boot/libs/filesystem/src/operations.cpp	2012-01-28 15:40:16.000000000 +0100
-+++ boost_1_53_0-patched/libs/filesystem/src/operations.cpp	2012-06-27 19:19:19.269597266 +0200
+diff -ruN boost_orig/libs/filesystem/src/operations.cpp boost_1_53_0/libs/filesystem/src/operations.cpp
+--- boost_orig/libs/filesystem/src/operations.cpp	2012-08-13 14:49:12.000000000 +0200
++++ boost_1_53_0/libs/filesystem/src/operations.cpp	2013-11-25 14:13:19.364163673 +0100
 @@ -73,13 +73,15 @@
      const fs::path dot_dot_path("..");
  #   include <sys/types.h>
@@ -135,9 +124,21 @@ diff -ruN boost_1_53_0-boot/libs/filesystem/src/operations.cpp boost_1_53_0-patc
  
  #   define BOOST_ERROR_NOT_SUPPORTED ENOSYS
  #   define BOOST_ERROR_ALREADY_EXISTS EEXIST
-diff -ruN boost_1_53_0-boot/tools/build/v2/tools/android.jam boost_1_53_0-patched/tools/build/v2/tools/android.jam
---- boost_1_53_0-boot/tools/build/v2/tools/android.jam	1970-01-01 01:00:00.000000000 +0100
-+++ boost_1_53_0-patched/tools/build/v2/tools/android.jam	2012-06-27 19:19:24.829608011 +0200
+diff -ruN boost_orig/libs/locale/build/Jamfile.v2 boost_1_53_0/libs/locale/build/Jamfile.v2
+--- boost_orig/libs/locale/build/Jamfile.v2	2012-05-23 19:39:25.000000000 +0200
++++ boost_1_53_0/libs/locale/build/Jamfile.v2	2013-11-25 14:13:19.360830293 +0100
+@@ -185,7 +185,7 @@
+ obj has_icu_obj     : ../build/has_icu_test.cpp : $(ICU_OPTS)   ;
+ obj has_icu64_obj   : ../build/has_icu_test.cpp : $(ICU64_OPTS) ;
+ 
+-exe has_icu   : has_icu_obj   : $(ICU_OPTS)   ;
++lib has_icu   : ../build/option.cpp : <link>static ;
+ exe has_icu64 : has_icu64_obj : $(ICU64_OPTS) ;
+ 
+ explicit has_icu has_icu64 ;
+diff -ruN boost_orig/tools/build/v2/tools/android.jam boost_1_53_0/tools/build/v2/tools/android.jam
+--- boost_orig/tools/build/v2/tools/android.jam	1970-01-01 01:00:00.000000000 +0100
++++ boost_1_53_0/tools/build/v2/tools/android.jam	2013-11-25 14:13:19.364163673 +0100
 @@ -0,0 +1,1064 @@
 +# Copyright 2001 David Abrahams.
 +# Copyright 2002-2006 Rene Rivera.
@@ -1203,9 +1204,9 @@ diff -ruN boost_1_53_0-boot/tools/build/v2/tools/android.jam boost_1_53_0-patche
 +cpu-flags android OPTIONS : power : rs64a : -mcpu=rs64 ;
 +# AIX variant of RS/6000 & PowerPC
 +toolset.flags android AROPTIONS <address-model>64/<target-os>aix : "-X 64" ;
-diff -ruN boost_1_53_0-boot/tools/build/v2/tools/android.py boost_1_53_0-patched/tools/build/v2/tools/android.py
---- boost_1_53_0-boot/tools/build/v2/tools/android.py	1970-01-01 01:00:00.000000000 +0100
-+++ boost_1_53_0-patched/tools/build/v2/tools/android.py	2012-06-27 19:19:30.359618678 +0200
+diff -ruN boost_orig/tools/build/v2/tools/android.py boost_1_53_0/tools/build/v2/tools/android.py
+--- boost_orig/tools/build/v2/tools/android.py	1970-01-01 01:00:00.000000000 +0100
++++ boost_1_53_0/tools/build/v2/tools/android.py	2013-11-25 14:13:19.364163673 +0100
 @@ -0,0 +1,798 @@
 +# Status: being ported by Steven Watanabe
 +# Base revision: 47077

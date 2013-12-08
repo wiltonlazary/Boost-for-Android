@@ -212,6 +212,24 @@ fi
 # Download required files
 # -----------------------
 
+# Download some other repositories
+[ -e android-shmem/shmem.c ] || {
+	git submodule update --init android-shmem || exit 1
+	cd android-shmem
+	git submodule update --init libancillary || exit 1
+	cd ..
+} || exit 1
+
+[ -e libiconv-libicu-android/build.sh ] || {
+	git submodule update --init libiconv-libicu-android || exit 1
+} || exit 1
+
+[ -e libiconv-libicu-android/armeabi ] || {
+	cd libiconv-libicu-android
+	./build.sh || exit 1
+	cd ..
+} || exit 1
+
 # Downalod and unzip boost in a temporal folder and
 if [ ! -f $BOOST_TAR ]
 then
@@ -316,7 +334,7 @@ echo "Building boost for android"
   export AndroidNDKRoot=$AndroidNDKRoot
   export NO_BZIP2=1
 
-  cxxflags=""
+  cxxflags="cxxflags=-isystem`pwd`/android-shmem"
   for flag in $CXXFLAGS; do cxxflags="$cxxflags cxxflags=$flag"; done
 
 #         cxxflags=-include/home/pelya/src/endless_space/android-ndk-r9b/sources/android/support/include/wchar.h \
